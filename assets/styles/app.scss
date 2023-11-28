@@ -1,0 +1,40 @@
+@import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:wght@100;400&display=swap');
+
+html {
+    color: #C1B0C0 !important;
+    
+}
+
+body {
+    background-color: #220B20;
+    font-family: 'Lobster', sans-serif;
+    font-size: 48px;    
+}
+
+.navbar-expand-lg .navbar-collapse {
+    display: flex!important;
+    flex-basis: auto;
+    flex-direction: row-reverse;      
+}
+.navbar > .navbar-nav {
+    color: #C1B0C0 !important;
+}
+
+.bg-light {
+    background-color: #1E031B !important;
+}
+
+.nav-link {
+    color: #C1B0C0 !important;
+}
+
+.navbar-brand {
+    color: #C1B0C0 !important;
+    font-size: 48px; 
+    font-family: 'Lobster', sans-serif;
+}
+
+h1 {
+    color: #C1B0C0;
+}
