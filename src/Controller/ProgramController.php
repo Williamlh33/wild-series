@@ -8,11 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProgramController extends AbstractController
 {
-    #[Route('/program/', name: 'program_index')]
-    public function index(): Response
+    #[Route('/program/{page}', methods : ['GET'], requirements: ['page'=>'\d+'], name: 'program_index')]
+    public function index(int $page = 1): Response
     {
         return $this->render('program/index.html.twig', [
             'website' => 'Wild Series',
+            'page' => $page
          ]);
     }
 }
