@@ -2,39 +2,31 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\Episode;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
 
 class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $episode = new Episode();
-        $episode->setTitle('Welcome to the Playground');
-        $episode->setNumber(1);
-        $episode->setSeason($this->getReference('season1_Arcane'));
-        $episode->setSynopsis('Les sœurs orphelines Vi et Powder causent des remous dans les rues souterraines de Zaun à la suite d\'un braquage dans le très huppé Piltover');
-        $manager->persist($episode);
-        $manager->flush();
-        
-        $episode = new Episode();
-        $episode->setTitle('Certains mystères ne devraient jamais être résolus');
-        $episode->setNumber(2);
-        $episode->setSeason($this->getReference('season1_Arcane'));
-        $episode->setSynopsis('Idéaliste, le chercheur Jayce tente de maîtriser la magie par la science malgré les avertissements de son mentor. Le criminel Silco teste une substance puissante.');
-        $manager->persist($episode);
-        $manager->flush();
-        
-        $episode = new Episode();
-        $episode->setTitle('Cette violence crasse nécessaire au changement');
-        $episode->setNumber(3);
-        $episode->setSeason($this->getReference('season1_Arcane'));
-        $episode->setSynopsis('Deux anciens rivaux s\'affrontent lors d\'un défi spectaculaire qui se révèle fatidique pour Zaun. Jayce et Viktor prennent de gros risques pour leurs recherches.');
-        $manager->persist($episode);
-        $manager->flush();
+        $faker = Factory::create();
 
+        for($i = 0; $i < 5000; $i++) {
+        $episode = new Episode();
+        $episode->setTitle($faker->sentence());
+        $episode->setNumber(1);
+        $episode->setSeason($this->getReference('season_' . rand(0, 499)));
+        $episode->setSynopsis($faker->paragraphs(3, true));
+        $this->addReference('episode_' . $i, $episode);
+
+        $manager->persist($episode);
+        }
+
+        $manager->flush();        
+        
     }
 
     public function getDependencies()

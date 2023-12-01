@@ -6,35 +6,14 @@ use App\Entity\Program;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
-    const PROGRAM = [
-        "Walking Dead" => [
-            "synopsis" => "Des zombies envahissent la terre",
-            "category" => "category_Action"
-        ],
-        "Donjons et Dragons" => [
-            "synopsis" => "Un voleur attachant et un groupe d'aventuriers disparates entreprennent un raid risqué pour récupérer une relique perdue.",
-            "category" => "category_Aventure"
-        ],
-        "Ghost in the Shell" => [
-            "synopsis" => "En 2029, le monde, ainsi que l'âme humaine, sont contrôlés par Internet. Motoko Kusagani, une cyberpolicière, et Batou, deux cyborgs appartenant à la section 9, anti-terroriste, doivent mettre la main sur un hacker mystérieux en contact avec un diplomate corrompu. ",
-            "category" => "category_Animation"
-        ],
-        "Le Seigneur des anneaux : La Communauté de l'anneau" => [
-            "synopsis" => "Un jeune et timide hobbit, Frodon Sacquet, hérite d'un anneau magique. Sous ses apparences de simple bijou, il s'agit en réalité d'un instrument de pouvoir absolu qui permettrait à Sauron, le Seigneur des ténèbres, de régner sur la Terre du Milieu et de réduire en esclavage ses peuples.",
-            "category" => "category_Fantastique"
-        ],
-        "Saw" => [
-            "synopsis" => "Dans une salle de bain désaffectée, le photographe Adam Stanheight et le docteur Lawrence Gordon se réveillent, aux coins opposés de la pièce, enchaînés par leurs chevilles à des canalisations.",
-            "category" => "category_Horreur"
-        ]
-    ];
-
+    
     public function load(ObjectManager $manager): void
     {
-
+        $faker = Factory::create();
         /*foreach(self::PROGRAM as $titleSerie => $content)
         {
         $program = new Program();
@@ -47,12 +26,16 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->flush();*/
 
+        for($i = 0; $i < 50; $i++) {
         $program = new Program();
-        $program->setTitle('Arcane');
-        $program->setCategory($this->getReference('category_Animation'));
-        $program->setSynopsis('Championnes de leurs villes jumelles et rivales (la huppée Piltover et la sous-terraine Zaun), deux sœurs Vi et Powder se battent dans une guerre où font rage des technologies magiques et des perspectives diamétralement opposées.');
+        $program->setTitle($faker->title());
+        $program->setCategory($this->getReference('category_' . rand(0, 14)));
+        $program->setSynopsis($faker->paragraphs(3, true));
         $manager->persist($program);
-        $this->addReference('program_Arcane', $program);
+        $this->addReference('program_' . $i, $program);
+
+        }
+
         $manager->flush();
     }
 
