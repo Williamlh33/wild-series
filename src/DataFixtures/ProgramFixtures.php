@@ -7,8 +7,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-;
-
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
     const PROGRAM = [
@@ -35,9 +33,10 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     ];
 
     public function load(ObjectManager $manager): void
-    {       
+    {
 
-        foreach(self::PROGRAM as $titleSerie => $content) {
+        /*foreach(self::PROGRAM as $titleSerie => $content)
+        {
         $program = new Program();
         $program->setTitle($titleSerie);
         $program->setSynopsis($content['synopsis']);
@@ -46,6 +45,14 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
        
         }
 
+        $manager->flush();*/
+
+        $program = new Program();
+        $program->setTitle('Arcane');
+        $program->setCategory($this->getReference('category_Animation'));
+        $program->setSynopsis('Championnes de leurs villes jumelles et rivales (la huppée Piltover et la sous-terraine Zaun), deux sœurs Vi et Powder se battent dans une guerre où font rage des technologies magiques et des perspectives diamétralement opposées.');
+        $manager->persist($program);
+        $this->addReference('program_Arcane', $program);
         $manager->flush();
     }
 
@@ -53,7 +60,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     {
         // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
         return [
-          CategoryFixtures::class,
+            CategoryFixtures::class,
         ];
     }
 }

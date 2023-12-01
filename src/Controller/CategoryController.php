@@ -35,7 +35,9 @@ class CategoryController extends AbstractController
         } else {
             $programList = $programRepository->findBy(
                 ['category' => $category->getID()],
-                ['id' => 'DESC']
+                ['id' => 'DESC'],
+                3,
+                0
             );
         }
 
