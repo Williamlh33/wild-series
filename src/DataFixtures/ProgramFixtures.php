@@ -31,6 +31,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setTitle($faker->title());
         $program->setCategory($this->getReference('category_' . rand(0, 14)));
         $program->setSynopsis($faker->paragraphs(3, true));
+        $program->addActor($this->getReference('actor_' . rand(0,9)));
         $manager->persist($program);
         $this->addReference('program_' . $i, $program);
 
