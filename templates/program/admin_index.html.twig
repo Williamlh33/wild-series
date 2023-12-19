@@ -1,19 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Program index{% endblock %}
+{% block title %}Episode index{% endblock %}
 
 {% block body %}
     <h1>Program index</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Synopsis</th>
-                <th>Poster</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Number</th>
+            <th>Synopsis</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for program in programs %}
@@ -21,10 +21,9 @@
                 <td>{{ program.id }}</td>
                 <td>{{ program.title }}</td>
                 <td>{{ program.synopsis }}</td>
-                <td><img src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }} poster"></td>
-                <td>                
-                    <a href="{{ path('program_show', {'slug': program.slug}) }}">show</a>
-                    <a href="{{ path('program_edit', {'slug': program.slug}) }}">edit</a>
+                <td>
+                    <a href="{{ path('program_show', {'programSlug': program.slug}) }}">show</a>
+                    <a href="{{ path('program_admin_edit', {'slug': program.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

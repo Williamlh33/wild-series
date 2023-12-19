@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EpisodeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +17,7 @@ class Episode
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'episodes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name:"season_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private ?Season $season = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -26,6 +28,17 @@ class Episode
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $synopsis = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
+    #[ORM\OneToMany(mappedBy: 'episode', targetEntity: Comment::class)]
+    private Collection $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,6 +89,48 @@ class Episode
     public function setSynopsis(?string $synopsis): static
     {
         $this->synopsis = $synopsis;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setEpisode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getEpisode() === $this) {
+                $comment->setEpisode(null);
+            }
+        }
 
         return $this;
     }

@@ -11,10 +11,10 @@
     {% for episode in episodes %}
 
         <li>Episode {{ episode.number }} : {{ episode.title }}</li>    
-        <a href=" {{ path("program_episode_show", {"programId" : program.id, "seasonId" : season.id, "episodeId" : episode.id}) }} "> détails</a>
+        <a href=" {{ path("program_episode_show", {"programId" : program.slug, "seasonId" : season.id, "episodeId" : episode.slug}) }} "> détails</a>
     {% endfor %}
 
-</ul>
+</ul> 
 <a href="{{ path('program_index') }}">
         Retour à la liste des programmes
     </a>

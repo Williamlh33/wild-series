@@ -17,7 +17,7 @@ class Season
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'seasons')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name:"program_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private ?Program $program = null;
 
     #[ORM\Column(nullable: true)]

@@ -2,10 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Actor;
 use App\Entity\Program;
 use App\Entity\Category;
-use App\Entity\Actor;
 use Symfony\Component\Form\AbstractType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,8 +18,12 @@ class ProgramType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('synopsis')
-            ->add('poster')
+            ->add('synopsis') 
+            ->add('posterFile', VichFileType::class, [
+                'required'      => false,
+                'allow_delete'  => true, // not mandatory, default is true
+                'download_uri' => true, // not mandatory, default is true
+            ])           
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name'
@@ -29,7 +34,7 @@ class ProgramType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'by_reference' => false,
-            ])
+            ])            
         ;
     }
 
